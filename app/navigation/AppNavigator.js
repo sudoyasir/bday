@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet } from "react-native";
 import { ColorfulTabBar } from "react-navigation-tabbar-collection";
-import { Home, Birthdays, Settings, Calender } from "../components";
+import { Home, Birthdays, Settings, Calender } from "../screens";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Tab = createBottomTabNavigator();
