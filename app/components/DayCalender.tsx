@@ -9,7 +9,6 @@ interface DayItem {
 
 const DayCalendar = () => {
   const [dayList, setDayList] = useState<DayItem[]>([]);
-  const [currentDayIndex, setCurrentDayIndex] = useState<number>(-1);
 
   // Helper function to get the day name
   const getDayName = (dayIndex: number): string => {
@@ -18,39 +17,42 @@ const DayCalendar = () => {
   };
 
   useEffect(() => {
-    // Generate an array of date objects for the next 7 days
-    const startDate = new Date();
-    const endDate = new Date();
-    endDate.setDate(startDate.getDate() + 6);
+    const today = new Date();
+    const todayIndex = today.getDay();
 
     const newDayList: DayItem[] = [];
-    let currentDate = new Date(startDate);
 
-    while (currentDate <= endDate) {
+    // Add today's date as the second item in the list
+    newDayList.push({
+      date: today.getDate(),
+      day: getDayName(todayIndex),
+    });
+
+    // Add the next six days after today
+    for (let i = 1; i < 7; i++) {
+      const nextDate = new Date();
+      nextDate.setDate(today.getDate() + i);
+
       newDayList.push({
-        date: currentDate.getDate(),
-        day: getDayName(currentDate.getDay()),
+        date: nextDate.getDate(),
+        day: getDayName(nextDate.getDay()),
       });
-
-      currentDate.setDate(currentDate.getDate() + 1);
     }
 
-    // Find the index of the current day
-    const todayIndex = new Date().getDay();
-
     setDayList(newDayList);
-    setCurrentDayIndex(todayIndex);
   }, []); // Run this effect only once on component mount
 
   // Render each item in the FlatList
   const renderDayItem = ({ item, index }: { item: DayItem; index: number }) => {
-    const isToday = index === currentDayIndex;
-    const cardWidth = isToday ? 80 : 70; // Adjust the size based on your preference
-    const cardHeight = isToday ? 130 : 100; // Adjust the size based on your preference
+    const isToday = index === 1; // Today is at index 1 in the array
+
+    // Adjust styling based on today or other days
+    const cardWidth = isToday ? 80 : 70;
+    const cardHeight = isToday ? 130 : 100;
     const backgroundColor = isToday ? "#ff8d8d" : "white";
 
     return (
-      <View className="flex-1 justify-center mt-5">
+      <View className="flex-1 justify-center">
         <View
           style={{
             borderRadius: isToday ? 10 : 0,
@@ -60,7 +62,6 @@ const DayCalendar = () => {
             backgroundColor,
             width: cardWidth,
             height: cardHeight,
-            
           }}
         >
           {/* Today text */}
@@ -80,9 +81,7 @@ const DayCalendar = () => {
           </Text>
 
           {/* Day */}
-          {!isToday && (
-            <Text style={{ fontWeight: "bold" }}>{item.day}</Text>
-          )}
+          {!isToday && <Text style={{ fontWeight: "bold" }}>{item.day}</Text>}
 
           {/* Icon at the bottom */}
           {isToday && <Feather name="bell" size={20} color="white" />}

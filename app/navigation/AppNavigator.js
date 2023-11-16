@@ -1,19 +1,25 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack"; // Import createStackNavigator
 import { StyleSheet } from "react-native";
 import { ColorfulTabBar } from "react-navigation-tabbar-collection";
 import { Home, Birthdays, Settings, Calender } from "../screens";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import AddBirthday from "../screens/AddBirthday";
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator(); // Create Stack Navigator
 
 const AppNavigator = () => {
   return (
     <NavigationContainer independent={true}>
       <Tab.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
         initialRouteName="Home"
-        tabBar={(props) => <ColorfulTabBar {...props} />}
+        tabBar={(props) => <ColorfulTabBar {...props}  />}
       >
         <Tab.Screen
           name="Home"
@@ -24,9 +30,7 @@ const AppNavigator = () => {
               <Icon name="home-variant" size={size} color={color} />
             ),
             color: "primary",
-            headerShown: false, // Hide the header for this screen
           }}
-          
         />
         <Tab.Screen
           name="Birthdays"
@@ -37,8 +41,6 @@ const AppNavigator = () => {
               <Icon name="cake-variant" size={size} color={color} />
             ),
             color: "info",
-            headerShown: false, // Hide the header for this screen
-            cardStyle: { paddingTop: 16 }, // Add padding from the top
           }}
         />
         <Tab.Screen
@@ -50,8 +52,6 @@ const AppNavigator = () => {
               <Icon name="calendar-month" size={size} color={color} />
             ),
             color: "danger",
-            headerShown: false, // Hide the header for this screen
-            cardStyle: { paddingTop: 16 }, // Add padding from the top
           }}
         />
 
@@ -61,15 +61,14 @@ const AppNavigator = () => {
           options={{
             title: "Settings",
             icon: ({ focused, color, size }) => (
-              <Icon name="cog" size={size} color={color} />
+              <Icon name="person" size={size} color={color} />
             ),
             color: "success",
-            headerShown: false, // Hide the header for this screen
-            cardStyle: { paddingTop: 16 }, // Add padding from the top
           }}
         />
       </Tab.Navigator>
     </NavigationContainer>
+    
   );
 };
 

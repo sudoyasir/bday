@@ -1,6 +1,13 @@
 // HomeScreen.js or HomeScreen.tsx
 import React from "react";
-import { View, Text, Button, TouchableOpacity, FlatList, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  TouchableOpacity,
+  FlatList,
+  ScrollView,
+} from "react-native";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import DayCalendar from "../components/DayCalender";
 import TodaysBirthdayCard from "../components/TodaysBirthdayCard";
@@ -18,37 +25,40 @@ const HomeScreen = () => {
     {
       name: "Alice",
       age: 25,
-      imageUrl: "https://img.freepik.com/premium-psd/3d-illustration-human-avatar-profile_23-2150671167.jpg",
+      imageUrl:
+        "https://img.freepik.com/premium-psd/3d-illustration-human-avatar-profile_23-2150671167.jpg",
       dob: "1998-08-15",
       daysRemaining: 7,
     },
     {
       name: "Bob",
       age: 28,
-      imageUrl: "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671151.jpg?t=st=1699903084~exp=1699903684~hmac=1c92ee9b3894812aa8e6aac23d206403a2f0baafda8f89148d00930625f40acc",
+      imageUrl:
+        "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671151.jpg?t=st=1699903084~exp=1699903684~hmac=1c92ee9b3894812aa8e6aac23d206403a2f0baafda8f89148d00930625f40acc",
       dob: "1995-11-22",
       daysRemaining: 12,
     },
     {
       name: "Alice",
       age: 25,
-      imageUrl: "https://img.freepik.com/premium-psd/3d-illustration-human-avatar-profile_23-2150671167.jpg",
+      imageUrl:
+        "https://img.freepik.com/premium-psd/3d-illustration-human-avatar-profile_23-2150671167.jpg",
       dob: "1998-08-15",
       daysRemaining: 7,
     },
     {
       name: "Bob",
       age: 28,
-      imageUrl: "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671151.jpg?t=st=1699903084~exp=1699903684~hmac=1c92ee9b3894812aa8e6aac23d206403a2f0baafda8f89148d00930625f40acc",
+      imageUrl:
+        "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671151.jpg?t=st=1699903084~exp=1699903684~hmac=1c92ee9b3894812aa8e6aac23d206403a2f0baafda8f89148d00930625f40acc",
       dob: "1995-11-22",
       daysRemaining: 12,
     },
     // Add
   ];
-
   return (
     <ScrollView className="container p-5">
-      <View className="flex-row justify-between items-center my-14 mb-20">
+      <View className="flex-row justify-between items-center my-10">
         {/* Text on the left */}
         <View className="">
           <Text className="font-bold text-lg">Hi Yasir,</Text>
@@ -69,7 +79,7 @@ const HomeScreen = () => {
             borderRadius: 5,
             marginTop: 10,
           }}
-          onPress={() => console.log("Add Birthdays button pressed")}
+          onPress={console.log("Add Birthday Pressed")}
         >
           <Text className="font-bold text-gray-900">Add Birthdays</Text>
           <Icon
