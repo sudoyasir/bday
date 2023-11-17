@@ -12,6 +12,9 @@ import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import DayCalendar from "../components/DayCalender";
 import TodaysBirthdayCard from "../components/TodaysBirthdayCard";
 import UpCommingBirthdaysCard from "../components/UpCommingBirthdaysCard";
+import { useNavigation } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import AddBirthday from "./AddBirthday";
 
 const HomeScreen = () => {
   const user = {
@@ -56,8 +59,16 @@ const HomeScreen = () => {
     },
     // Add
   ];
+  const navigate = useNavigation();
+  const Stack = createStackNavigator();
+
+  function handleAddBirthday() {
+    navigate.navigate("AddBirthday");
+    
+  }
+
   return (
-    <ScrollView className="container p-5">
+    <ScrollView className="container p-5" showsVerticalScrollIndicator={false}>
       <View className="flex-row justify-between items-center my-10">
         {/* Text on the left */}
         <View className="">
@@ -79,7 +90,9 @@ const HomeScreen = () => {
             borderRadius: 5,
             marginTop: 10,
           }}
-          onPress={console.log("Add Birthday Pressed")}
+          onPress={() => {
+            handleAddBirthday();
+          }}
         >
           <Text className="font-bold text-gray-900">Add Birthdays</Text>
           <Icon
