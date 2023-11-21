@@ -3,10 +3,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { ColorfulTabBar } from "react-navigation-tabbar-collection";
-import { Home, Birthdays, Settings, Calender } from "../screens"; // Update the screen paths accordingly
+import { Home, Birthdays, Settings, Calender } from "../screens"; 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { StyleSheet } from "react-native";
-import AddBirthday from "../screens/AddBirthday"; // Update the screen path accordingly
+import AddBirthday from "../screens/AddBirthday"; 
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -21,8 +21,7 @@ const AppNavigator = () => {
       tabBar={(props) => <ColorfulTabBar {...props} />}
     >
       <Tab.Screen
-        name="Home"
-        // Rendering HomeStack as component so that nested navigation can work properly
+        name="HomeScreen"
         component={HomeStack}
         options={{
           title: "Home",

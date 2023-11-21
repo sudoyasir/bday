@@ -3,10 +3,8 @@ import React from "react";
 import {
   View,
   Text,
-  Button,
   TouchableOpacity,
   FlatList,
-  ScrollView,
 } from "react-native";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import DayCalendar from "../components/DayCalender";
@@ -60,16 +58,14 @@ const HomeScreen = () => {
     // Add
   ];
   const navigate = useNavigation();
-  const Stack = createStackNavigator();
 
   function handleAddBirthday() {
     navigate.navigate("AddBirthday");
-    
   }
 
   return (
-    <ScrollView className="container p-5" showsVerticalScrollIndicator={false}>
-      <View className="flex-row justify-between items-center my-10">
+    <View className="container p-5" showsVerticalScrollIndicator={false}>
+      <View className="flex-row justify-between items-center mt-16 mb-5">
         {/* Text on the left */}
         <View className="">
           <Text className="font-bold text-lg">Hi Yasir,</Text>
@@ -132,7 +128,7 @@ const HomeScreen = () => {
           )}
         />
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
