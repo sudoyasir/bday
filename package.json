@@ -17,6 +17,7 @@
     "nativewind": "^2.0.11",
     "react": "18.2.0",
     "react-native": "0.72.4",
+    "react-native-date-picker": "^4.3.3",
     "react-native-picker-select": "^9.0.0",
     "react-native-vector-icons": "^10.0.2",
     "react-navigation-tabbar-collection": "^1.0.0"

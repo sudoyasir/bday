@@ -11,13 +11,15 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import DatePicker from "react-native-date-picker";
 
 const AddBirthday = () => {
   const [name, setName] = useState("");
   const [selectedPicture, setSelectedPicture] = useState(
     require("../../assets/avatars/Avatar1.jpg") // Set a default image
   );
-  const [birthday, setBirthday] = useState("");
+  const [birthday, setBirthday] = useState(new Date()); // Set a default birthday date
+  const [date, setDate] = useState(new Date());
 
   const cartoonPictures = [
     require("../../assets/avatars/Avatar1.jpg"),
@@ -90,12 +92,7 @@ const AddBirthday = () => {
         onChangeText={(text) => setName(text)}
       />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Enter Birthday"
-        value={birthday}
-        onChangeText={(text) => setBirthday(text)}
-      />
+      <DatePicker date={date} onDateChange={setDate} />
 
       <Button title="Add Birthday" onPress={handleAddBirthday} />
     </ScrollView>
@@ -121,7 +118,6 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    width: "100%",
     borderWidth: 3,
     borderColor: "#ccc",
     borderRadius: 5,
@@ -129,6 +125,8 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     color: "#000",
     backgroundColor: "transparent",
+    justifyContent: "center",
+    alignItems: "center",
   },
   pictureContainer: {
     flexDirection: "row",
