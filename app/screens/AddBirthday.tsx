@@ -6,12 +6,13 @@ import {
   Image,
   StyleSheet,
   Button,
-  TextInput,
   ScrollView,
+  TextInput,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message";
 
 const AddBirthday = () => {
   const [name, setName] = useState("");
@@ -32,22 +33,38 @@ const AddBirthday = () => {
     require("../../assets/avatars/Avatar8.jpg"),
   ];
 
+  const handleAddBirthday = async () => {
+    // ... (your existing code)
+
+    try {
+      // Convert the selected picture URI to a string for storage
+      const pictureString = JSON.stringify(selectedPicture);
+
+      // Save data to local storage using AsyncStorage
+      await AsyncStorage.setItem("name", name);
+      await AsyncStorage.setItem("selectedPicture", pictureString);
+      await AsyncStorage.setItem("birthday", birthday.toString());
+
+      // Show Toast on success
+      Toast.show({
+        type: "success",
+        text1: "Data Saved",
+        text2: `${name}'s birthday information has been saved.`,
+      });
+      console.log("Data saved successfully!");
+    } catch (error) {
+      console.error("Error saving data to local storage:", error);
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Failed to save birthday information.",
+      });
+    }
+  };
+
   const handlePictureSelect = (picture) => {
     setSelectedPicture(picture);
   };
-
-  const handleAddBirthday = () => {
-    console.log("Name:", name);
-    console.log("Selected Picture:", selectedPicture);
-    console.log("Birthday:", birthday);
-    // Implement logic to handle adding birthday with selected picture
-  };
-
-  const navigation = useNavigation();
-
-  function handleGoHome() {
-    navigation.navigate("Home");
-  }
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || birthday;
@@ -58,13 +75,12 @@ const AddBirthday = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={handleGoHome}>
+        <TouchableOpacity onPress={() => {}}>
           <MaterialIcons name="arrow-back" size={26} color="#000" />
         </TouchableOpacity>
         <Text style={styles.headerText}>Add Birthday</Text>
       </View>
 
-      {/* Display the selected picture */}
       {selectedPicture && (
         <View style={styles.previewImageContainer}>
           <Image source={selectedPicture} style={styles.selectedImage} />
@@ -98,7 +114,6 @@ const AddBirthday = () => {
         onChangeText={(text) => setName(text)}
       />
 
-      {/* Show Date Picker */}
       <TouchableOpacity
         style={styles.datePickerButton}
         onPress={() => setShowDatePicker(true)}
@@ -108,7 +123,6 @@ const AddBirthday = () => {
         </Text>
       </TouchableOpacity>
 
-      {/* Render Date Picker if showDatePicker is true */}
       {showDatePicker && (
         <DateTimePicker
           value={birthday}
@@ -130,7 +144,6 @@ const styles = StyleSheet.create({
     paddingVertical: 50,
   },
   header: {
-    display: "flex",
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 20,
@@ -162,7 +175,7 @@ const styles = StyleSheet.create({
   },
   pictureItem: {
     marginBottom: 15,
-    width: "23%", // Adjusted width to fit 4 pictures in a row
+    width: "23%",
     aspectRatio: 1,
     position: "relative",
   },
@@ -172,8 +185,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   previewImageContainer: {
-    alignItems: "center", // Align the image in the center
-    marginBottom: 20, // Adjust margin as needed
+    alignItems: "center",
+    marginBottom: 20,
     position: "relative",
   },
   selectedImage: {
@@ -181,27 +194,30 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 100,
   },
-  checkIcon: {
-    position: "absolute",
-    right: 10,
-    bottom: 10,
-  },
   pictureCheckIcon: {
     position: "absolute",
     right: 5,
     top: 5,
   },
   datePickerButton: {
+    flexDirection: "row",
     backgroundColor: "gray",
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 5,
     alignItems: "center",
+    justifyContent: "center",
     marginBottom: 20,
   },
   datePickerButtonText: {
     color: "#fff",
-    fontSize: 18,
+    fontSize: 15,
+    marginRight: 10,
+  },
+  cakeIcon: {
+    width: 20,
+    height: 20,
+    tintColor: "#fff",
   },
 });
 
