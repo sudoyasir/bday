@@ -11,15 +11,15 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import DatePicker from "react-native-date-picker";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const AddBirthday = () => {
   const [name, setName] = useState("");
   const [selectedPicture, setSelectedPicture] = useState(
-    require("../../assets/avatars/Avatar1.jpg") // Set a default image
+    require("../../assets/avatars/Avatar1.jpg")
   );
-  const [birthday, setBirthday] = useState(new Date()); // Set a default birthday date
-  const [date, setDate] = useState(new Date());
+  const [birthday, setBirthday] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const cartoonPictures = [
     require("../../assets/avatars/Avatar1.jpg"),
@@ -37,27 +37,33 @@ const AddBirthday = () => {
   };
 
   const handleAddBirthday = () => {
-    // Implement logic to handle adding birthday with selected picture
     console.log("Name:", name);
     console.log("Selected Picture:", selectedPicture);
     console.log("Birthday:", birthday);
-    // You can perform additional actions here such as sending data to a server, etc.
+    // Implement logic to handle adding birthday with selected picture
   };
 
-  const navigate = useNavigation();
+  const navigation = useNavigation();
 
   function handleGoHome() {
-    navigate.navigate("Home");
+    navigation.navigate("Home");
   }
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || birthday;
+    setShowDatePicker(false);
+    setBirthday(currentDate);
+  };
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity className="p-2" onPress={handleGoHome}>
+        <TouchableOpacity onPress={handleGoHome}>
           <MaterialIcons name="arrow-back" size={26} color="#000" />
         </TouchableOpacity>
         <Text style={styles.headerText}>Add Birthday</Text>
       </View>
+
       {/* Display the selected picture */}
       {selectedPicture && (
         <View style={styles.previewImageContainer}>
@@ -92,7 +98,25 @@ const AddBirthday = () => {
         onChangeText={(text) => setName(text)}
       />
 
-      <DatePicker date={date} onDateChange={setDate} />
+      {/* Show Date Picker */}
+      <TouchableOpacity
+        style={styles.datePickerButton}
+        onPress={() => setShowDatePicker(true)}
+      >
+        <Text style={styles.datePickerButtonText}>
+          {birthday.toLocaleDateString()}
+        </Text>
+      </TouchableOpacity>
+
+      {/* Render Date Picker if showDatePicker is true */}
+      {showDatePicker && (
+        <DateTimePicker
+          value={birthday}
+          mode="date"
+          display="default"
+          onChange={onChange}
+        />
+      )}
 
       <Button title="Add Birthday" onPress={handleAddBirthday} />
     </ScrollView>
@@ -166,6 +190,18 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 5,
     top: 5,
+  },
+  datePickerButton: {
+    backgroundColor: "gray",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  datePickerButtonText: {
+    color: "#fff",
+    fontSize: 18,
   },
 });
 
