@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -33,32 +33,48 @@ const AddBirthday = () => {
     require("../../assets/avatars/Avatar8.jpg"),
   ];
 
+  useEffect(() => {
+    // Initialize the database when the component mounts
+    initializeDatabase();
+  }, []);
+
   const handleAddBirthday = async () => {
-    // ... (your existing code)
-
     try {
-      // Convert the selected picture URI to a string for storage
-      const pictureString = JSON.stringify(selectedPicture);
+      // Format the birthday in the desired format (DD/MM/YYYY)
+      const formattedBirthday = birthday.toLocaleDateString("en-GB");
 
-      // Save data to local storage using AsyncStorage
-      await AsyncStorage.setItem("name", name);
-      await AsyncStorage.setItem("selectedPicture", pictureString);
-      await AsyncStorage.setItem("birthday", birthday.toString());
+      // Create an object representing the birthday data
+      const birthdayData = {
+        name,
+        selectedPicture, // assuming selectedPicture is an object with a 'uri' property
+        birthday: formattedBirthday,
+      };
 
-      // Show Toast on success
+      // Add birthday to the database
+      addBirthdayToDatabase(name, selectedPicture, formattedBirthday);
+
+      // Show Toast and log success
       Toast.show({
-        type: "success",
-        text1: "Data Saved",
-        text2: `${name}'s birthday information has been saved.`,
+        // Toast notification code
       });
-      console.log("Data saved successfully!");
+      console.log("Birthday data added to the database:", birthdayData);
     } catch (error) {
-      console.error("Error saving data to local storage:", error);
-      Toast.show({
-        type: "error",
-        text1: "Error",
-        text2: "Failed to save birthday information.",
-      });
+      // Error handling
+    }
+  };
+
+  const handleShowAllData = async () => {
+    try {
+      const birthdays = await getAllBirthdaysFromDatabase();
+
+      if (birthdays && birthdays.length > 0) {
+        // Handle the data
+        console.log("All birthdays from database:", birthdays);
+      } else {
+        console.log("No birthdays found in the database.");
+      }
+    } catch (error) {
+      console.error("Error retrieving birthdays:", error);
     }
   };
 
@@ -133,6 +149,8 @@ const AddBirthday = () => {
       )}
 
       <Button title="Add Birthday" onPress={handleAddBirthday} />
+
+      <Button title="Show All Data" onPress={handleShowAllData} />
     </ScrollView>
   );
 };
